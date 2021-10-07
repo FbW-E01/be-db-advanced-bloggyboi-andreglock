@@ -1,1 +1,27 @@
 GET http://localhost:{{$dotenv PORT}}/posts
+
+###
+
+POST http://localhost:{{$dotenv PORT}}/posts
+Content-Type: application/json
+
+{ 
+    "author": "Backend tester",
+    "content": "content of a new post here!",
+    "image": "https://via.placeholder.com/350x150"
+}
+
+###
+
+GET http://localhost:{{$dotenv PORT}}/post/615ac630db17c3fdc6a0cdbe/comments
+
+###
+
+POST http://localhost:{{$dotenv PORT}}/post/6154674b929e0b14cd478945/comments
+Content-Type: application/json
+
+{ 
+    "author": "Backend tester commenting",
+    "content": "Comment for a new post here!",
+    "postId": "61546c602a578b6534596f5c"
+}

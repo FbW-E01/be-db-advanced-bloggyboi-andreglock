@@ -14,7 +14,7 @@ postSchema.methods.addComment = async function (comment) {
     this.comments.pop();
   }
   this.totalComments++;
-  this.comments.push(comment);
+  this.comments.unshift(comment);
   await comment.save();
   return this.save();
 };

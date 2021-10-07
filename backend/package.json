@@ -3,7 +3,7 @@
   "type": "module",
   "license": "ISC",
   "scripts": {
-    "start": "echo \"What do you mean start? I don't understand! You need to teach me how to start first :)\" && exit 1"
+    "start": "node index.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
