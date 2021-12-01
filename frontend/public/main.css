@@ -90,3 +90,15 @@ html {
   margin: 0.5em 0;
   cursor: pointer;
 }
+
+.comment-form > * {
+  display: block;
+  width: 80%;
+}
+
+.comment-form > button {
+  display: block;
+  width: max-content;
+  padding: 5px;
+  margin: 10px;
+}

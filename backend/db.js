@@ -1,9 +1,17 @@
 import mongoose from "mongoose";
+import dotenv from "dotenv";
+
+// Read environment variables
+const dotenvResult = dotenv.config({ path: '.env' });
+if (dotenvResult.error) {
+  console.log("ERROR when loading .env",dotenvResult.error);
+  process.exit(1);
+}
 
 // NOTE: These values SHOULD be coming from .env!
-const username = "jimmy";
-const password = "passw0rd";
-const db = "exampledb";
+const username = process.env.DB_USER;
+const password = process.env.DB_PASS;
+const db = "bloggyboi";
 
 const connectionString = `mongodb://${username}:${password}@localhost:27017/${db}`;
 

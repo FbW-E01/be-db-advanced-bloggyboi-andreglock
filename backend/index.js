@@ -5,9 +5,10 @@ import seed from "./seeders/seed.js";
 import requestlogger from "./middleware/requestlogger.js";
 import Database from "./db.js";
 import Post from "./models/Post.js";
+import Comment from "./models/Comment.js";
 
 // Read environment variables
-const dotenvResult = dotenv.config({ path: 'backend/.env' });
+const dotenvResult = dotenv.config({ path: '.env' });
 if (dotenvResult.error) {
   console.log("ERROR when loading .env",dotenvResult.error);
   process.exit(1);
@@ -34,13 +35,49 @@ app.get("/posts", async (req, res) => {
   res.json(post);
 });
 
-app.get("/post/{postId}/comments", (req, res) => {
-  // TODO: Somehow all comments for the given post from the database
-  res.json([]);
+app.get("/post/:postId/comments", async (req, res) => {
+  // DONE: Somehow all comments for the given post from the database
+  console.log(req.params.postId)
+  // This query is correct, but postId will reset every time the server resets
+  const comments = await Comment.find({ postId: req.params.postId });
+  res.json(comments);
 });
 
-// TODO: Add endpoint for adding posts
-// TODO: Add endpoint for addingcomments 
+// DONE: Add endpoint for adding posts
+app.post("/posts", async (req, res) => {
+  // Save data to DB
+    const post = new Post({
+      author: req.body.author,
+      content: req.body.content,
+      image: req.body.image,
+    })
+    post.save()
+        .then(() => {
+          console.log(`Post from: ${req.body.author} saved!!!`)
+        })
+        .catch(e => console.log("Unable to save!", e));
+
+  res.status(201);
+  res.json({ success: true });
+});
+
+// TODO: Add endpoint for adding comments 
+app.post("/post/:postId/comments", async (req, res) => {
+  console.log("Saving:", req.body);
+  //find post
+  const post = await Post.find({_id: req.params.postId});// returns an array
+  // Save data to DB
+  const comment = new Comment({
+    author: req.body.author,
+    content: req.body.content,
+    postId: req.body.postId
+  })
+  await post[0].addComment(comment) // Post.addComment doesn't work either.
+    //console.log(`Comment from: ${req.body.author} for ${req.body.postId}, saved!!!`)
+  res.status(201);
+  res.json({ success: true });
+});
+
 
 app.use((req, res) => {
   res.status(404);
